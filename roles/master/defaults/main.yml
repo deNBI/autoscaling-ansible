@@ -1,7 +1,7 @@
 autoscaling_user: "ubuntu"
 autoscaling_home: "/home/{{autoscaling_user}}/autoscaling"
 autoscaling_env: virtualenv
-autoscaling_version: 1.0.0
+autoscaling_version: 1.0.1
 scaling_files:
   cluster_pw: "{{ autoscaling_home }}/cluster_pw.json"
 slurm_version: v23.2.0
