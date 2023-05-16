@@ -31,7 +31,7 @@
 - name: Install pip packages
   pip:
     requirements: "{{ autoscaling_home }}/requirements.txt"
-    executable: "{ { autoscaling_home } }/{{ autoscaling_env }}/bin/pip"
+    executable: "{{ autoscaling_home }}/{{ autoscaling_env }}/bin/pip"
   become_user: "{{ autoscaling_user }}"
 
 - name: Check if {{ autoscaling_env }} installed
