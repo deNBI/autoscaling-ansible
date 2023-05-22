@@ -1,5 +1,14 @@
+- name: Add apt.bi.denbi.de repository key
+  ansible.builtin.apt_key:
+    url: https://apt.bi.denbi.de/repo_key.key
+    state: present
+
+- name: Add apt.bi.denbi.de repository
+  ansible.builtin.apt_repository:
+    repo: deb https://apt.bi.denbi.de/repos/apt/{{ ansible_distribution_release | lower }} {{ ansible_distribution_release | lower }} main
+
 - name: Install Slurm packages
   apt:
-    name: ["slurm-full"]
+    name: [ "slurm-full" ]
     state: latest
 
