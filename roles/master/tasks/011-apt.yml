@@ -6,9 +6,20 @@
 - name: Add apt.bi.denbi.de repository
   ansible.builtin.apt_repository:
     repo: deb https://apt.bi.denbi.de/repos/apt/{{ ansible_distribution_release | lower }} {{ ansible_distribution_release | lower }} main
-
+    
 - name: Install Slurm packages
   apt:
     name: [ "slurm-full" ]
     state: latest
+    
+- name: Import deadsnake PPA for python3.9
+  ansible.builtin.apt_repository:
+    repo: ppa:deadsnakes/ppa
+    update_cache: yes
 
+- name: Install Python 3.9 and virtualenv packages
+  apt:
+    name:
+      - python3.9
+      - python3-venv
+    state: latest
