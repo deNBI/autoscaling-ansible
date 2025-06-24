@@ -13,13 +13,6 @@
   become_user: "{{ autoscaling_user }}"
   when: pyslurm_installed is failed
 
-- name: Change slurmfull to slurm
-  ansible.builtin.shell: sed -i 's/slurmfull/slurm/' "{{ autoscaling_home }}/pyslurm/setup.py"
-  args:
-    executable: /bin/bash
-  run_once: true
-  become_user: "{{ autoscaling_user }}"
-  when: pyslurm_installed is failed
 
 - name: Pyslurm build
   ansible.builtin.shell: "cd {{ autoscaling_home }}/pyslurm && {{ autoscaling_home }}/{{autoscaling_env}}/bin/python setup.py build --slurm-inc=/usr/include --slurm-lib=/usr/lib"

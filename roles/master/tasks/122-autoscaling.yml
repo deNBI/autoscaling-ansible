@@ -18,16 +18,6 @@
     creates: "{{ autoscaling_home }}/autoscaling_config.yaml"
   become_user: "{{ autoscaling_user }}"
 
-#- name: Check if password file exist
-#  stat:
-#    path: "{{ scaling_files.cluster_pw }}"
-#  register: cluster_pw
-
-#- name: Start autoscaling service
-#  systemd:
-#    name: autoscaling
-#    state: started
-#  when: cluster_pw.stat.exists == True
 
 - name: Add alias for autoscaling
   ansible.builtin.lineinfile:
