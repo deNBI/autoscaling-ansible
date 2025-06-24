@@ -1,65 +1,67 @@
 {
-   "extends":[
-      "config:base",
+   "extends": [
+      "config:recommended",
       ":automergePatch"
    ],
-   "platform":"github",
-   "regexManagers":[
+   "platform": "github",
+   "customManagers": [
       {
-         "fileMatch":[
-            "roles/master/defaults/main\\.yml"
+         "customType": "regex",
+         "managerFilePatterns": [
+            "/roles/master/defaults/main\\.yml/"
          ],
-         "matchStrings":[
+         "matchStrings": [
             "slurm_version: (?<currentValue>.*?)\\n"
          ],
-         "depNameTemplate":"PySlurm/pyslurm",
-         "datasourceTemplate":"github-tags"
+         "depNameTemplate": "PySlurm/pyslurm",
+         "datasourceTemplate": "github-tags"
       },
       {
-         "fileMatch":[
-            "roles/master/defaults/main\\.yml"
+         "customType": "regex",
+         "managerFilePatterns": [
+            "/roles/master/defaults/main\\.yml/"
          ],
-         "matchStrings":[
+         "matchStrings": [
             "autoscaling_version: (?<currentValue>.*?)\\n"
          ],
-         "depNameTemplate":"deNBI/autoscaling-cluster",
-         "datasourceTemplate":"github-tags"
+         "depNameTemplate": "deNBI/autoscaling-cluster",
+         "datasourceTemplate": "github-tags"
       }
    ],
-   "packageRules":[
+   "packageRules": [
       {
-         "matchUpdateTypes":[
+         "matchUpdateTypes": [
             "major",
             "minor",
             "patch"
          ],
-         "addLabels":[
+         "addLabels": [
             "major",
             "minor",
             "patch"
          ]
       }
    ],
-   "vulnerabilityAlerts":{
-      "labels":[
+   "vulnerabilityAlerts": {
+      "labels": [
          "security"
       ]
    },
-   "baseBranches":[
+   "baseBranches": [
       "dev"
    ],
-   "reviewers":[
+   "reviewers": [
       "team:portal-dev"
    ],
-   "labels":[
+   "labels": [
       "dependencies"
    ],
-   "assignees":[
+   "assignees": [
       "team:portal-dev"
    ],
-   "branchPrefix":"deps/",
-   "bumpVersion":"minor",
-   "rebaseWhen":"behind-base-branch",
-   "commitBodyTable":true,
-   "commitMessagePrefix":"feat(Dependencies):"
+   "branchPrefix": "deps/",
+   "bumpVersion": "minor",
+   "rebaseWhen": "behind-base-branch",
+   "commitBodyTable": true,
+   "commitMessagePrefix": "feat(Dependencies):"
 }
