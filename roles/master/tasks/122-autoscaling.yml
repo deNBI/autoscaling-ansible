@@ -27,12 +27,3 @@
     state=present
     insertafter=EOF
   become_user: "{{ autoscaling_user }}"
-
-- name: Add alias for playbook
-  ansible.builtin.lineinfile:
-    path=/home/{{autoscaling_user}}/.bashrc
-    line="alias ansible_playbook_run='cd /home/{{autoscaling_user}}/playbook && ansible-playbook -v -i ansible_hosts  site.yml'"
-    regexp='^alias ansible_playbook_run='
-    state=present
-    insertafter=EOF
-  become_user: "{{ autoscaling_user }}"
