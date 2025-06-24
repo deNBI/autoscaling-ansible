@@ -12,10 +12,6 @@
     name: slurm-bibigrid-24.11
     state: present
     
-- name: Import deadsnake PPA for python3.9
-  ansible.builtin.apt_repository:
-    repo: ppa:deadsnakes/ppa
-    update_cache: yes
 
 - name: Install Python 3-dev and virtualenv packages
   apt:
