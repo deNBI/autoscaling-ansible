@@ -1,38 +1,30 @@
 - name: Check if pyslurm already installed
   shell: "{{ autoscaling_home }}/{{autoscaling_env}}/bin/python -m pip list | grep pyslurm"
   register: pyslurm_installed
-  ignore_errors: true
+  ignore_errors: true  # Allow the task to fail if pyslurm isn't found
 
 - name: Git checkout pyslurm
   ansible.builtin.git:
     repo: 'https://github.com/PySlurm/pyslurm.git'
     dest: "{{ autoscaling_home }}/pyslurm"
-    version: "{{slurm_version}}"
+    version: "{{ slurm_version }}"
     force: yes
     update: yes
   become_user: "{{ autoscaling_user }}"
-  when: pyslurm_installed is failed
-
+  when: pyslurm_installed.rc != 0  # Check the return code to determine if it's installed
 
 - name: Pyslurm build
-  ansible.builtin.shell: "cd {{ autoscaling_home }}/pyslurm && {{ autoscaling_home }}/{{autoscaling_env}}/bin/python setup.py build 
-  args:
-    executable: /bin/bash
-  run_once: true
+  ansible.builtin.shell: "cd {{ autoscaling_home }}/pyslurm && {{ autoscaling_home }}/{{ autoscaling_env}}/bin/python setup.py build"
   become_user: "{{ autoscaling_user }}"
   environment:
     SLURM_INCLUDE_DIR: /usr/include/
     SLURM_LIB_DIR: /usr/lib/
-
-
-  when: pyslurm_installed is failed
+  when: pyslurm_installed.rc != 0  # Only build if it wasn't already installed
 
 - name: Pyslurm install
-  ansible.builtin.shell: "cd {{ autoscaling_home }}/pyslurm && {{ autoscaling_home }}/{{autoscaling_env}}/bin/python setup.py install && {{ autoscaling_home }}/{{autoscaling_env}}/bin/python setup.py clean"
-  run_once: true
+  ansible.builtin.shell: "cd {{ autoscaling_home }}/pyslurm && {{ autoscaling_home }}/{{ autoscaling_env}}/bin/python setup.py install"
   become_user: "{{ autoscaling_user }}"
   environment:
     SLURM_INCLUDE_DIR: /usr/include/
     SLURM_LIB_DIR: /usr/lib/
-
-  when: pyslurm_installed is failed
+  when: pyslurm_installed.rc != 0  # Only install if it wasn't already installed
