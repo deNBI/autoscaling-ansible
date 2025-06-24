@@ -29,8 +29,6 @@
 
 - name: Pyslurm install
   ansible.builtin.shell: "cd {{ autoscaling_home }}/pyslurm && {{ autoscaling_home }}/{{autoscaling_env}}/bin/python setup.py install && {{ autoscaling_home }}/{{autoscaling_env}}/bin/python setup.py clean"
-  args:
-    executable: /bin/bash
   run_once: true
   become_user: "{{ autoscaling_user }}"
   environment:
