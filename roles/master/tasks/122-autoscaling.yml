@@ -4,35 +4,25 @@
     src: autoscaling/autoscaling.service
     dest: /etc/systemd/system/autoscaling.service
 
-- name: Download autoscaling
-  ansible.builtin.shell: wget "https://raw.githubusercontent.com/deNBI/autoscaling-cluster/{{autoscaling_version}}/autoscaling.py" -O {{ autoscaling_home }}/autoscaling.py
-  args:
-    executable: /bin/bash
-    creates: "{{ autoscaling_home }}/autoscaling.py"
+- name: Download autoscaling.py
+  ansible.builtin.uri:
+    url: "https://raw.githubusercontent.com/deNBI/autoscaling-cluster/{{ autoscaling_version }}/autoscaling.py"
+    dest: "{{ autoscaling_home }}/autoscaling.py"
+    force: yes
   become_user: "{{ autoscaling_user }}"
 
 - name: Download autoscaling config
-  ansible.builtin.shell: wget "https://raw.githubusercontent.com/deNBI/autoscaling-cluster/{{autoscaling_version}}/autoscaling_config.yaml" -O {{ autoscaling_home }}/autoscaling_config.yaml
-  args:
-    executable: /bin/bash
-    creates: "{{ autoscaling_home }}/autoscaling_config.yaml"
+  ansible.builtin.uri:
+    url: "https://raw.githubusercontent.com/deNBI/autoscaling-cluster/{{ autoscaling_version }}/autoscaling_config.yaml"
+    dest: "{{ autoscaling_home }}/autoscaling_config.yaml"
+    force: yes
   become_user: "{{ autoscaling_user }}"
-
 
 - name: Add alias for autoscaling
   ansible.builtin.lineinfile:
     path=/home/{{autoscaling_user}}/.bashrc
     line="alias autoscaling='{{ autoscaling_home }}/{{ autoscaling_env }}/bin/python {{ autoscaling_home }}/autoscaling.py'"
     regexp='^alias autoscaling='
-    state=present
-    insertafter=EOF
-  become_user: "{{ autoscaling_user }}"
-
-- name: Add alias for playbook
-  ansible.builtin.lineinfile:
-    path=/home/{{autoscaling_user}}/.bashrc
-    line="alias ansible_playbook_run='cd /home/{{autoscaling_user}}/playbook && ansible-playbook -v -i ansible_hosts  site.yml'"
-    regexp='^alias ansible_playbook_run='
     state=present
     insertafter=EOF
   become_user: "{{ autoscaling_user }}"
