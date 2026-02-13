@@ -4,5 +4,5 @@ autoscaling_env: virtualenv
 autoscaling_version: 2.1.0
 scaling_files:
   cluster_pw: "{{ autoscaling_home }}/cluster_pw.json"
-slurm_version: v24.11.0
+slurm_version: v25.11.0
 
